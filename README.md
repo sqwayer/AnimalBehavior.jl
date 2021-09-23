@@ -1,4 +1,4 @@
-# AnimalBehavior
+# AnimalBehavior.jl
 General wrapper for behavioral models used during my PhD.
 
 
