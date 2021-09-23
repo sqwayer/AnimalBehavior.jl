@@ -1,5 +1,5 @@
 module AnimalBehavior
-using Turing, StructArrays
+using Turing, StructArrays, StatsFuns
 using ForwardDiff: ForwardDiff
 using MacroTools: MacroTools
 
