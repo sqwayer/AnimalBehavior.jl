@@ -1,3 +1,8 @@
+# struct Posterior{Tc, Tp}
+#     chain::Tc
+#     avgParams::
+# end
+
 function cycle!(mdl, θ, obs)
     # action
     P = observation(mdl, obs.s; θ...)
