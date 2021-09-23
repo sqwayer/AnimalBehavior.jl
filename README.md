@@ -21,7 +21,7 @@ Note that variables can be sampled from a prior distribution, and/or transorfmed
 Then you have to define an evolution and an observation functions with the macros ```@evolution```and ```@observation```respectively with the following syntax : 
 ```julia
 @evolution MyModel begin 
-        Values[a,s] += α * (r - Values[a,s]) 
+        Values[a,s] += α * (r - Values[a,s]) # or : delta_rule!(s, a, r, Values, α)
     end
 
 @observation MyModel begin
