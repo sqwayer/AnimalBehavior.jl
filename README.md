@@ -42,7 +42,7 @@ end
 
 sim = simulate(MyModel; feedback=pr_feedback);
 ```
-```simulate``` returns a Simulation structure with fields ```data``` and ```latent```.
+```simulate``` returns a ```Simulation``` structure with fields ```data``` and ```latent```.
 
 ## Inference
 ```julia
