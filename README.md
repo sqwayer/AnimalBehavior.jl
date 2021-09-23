@@ -1,5 +1,5 @@
 # AnimalBehavior
-General wrapper for behavioral models used during my PhD
+General wrapper for behavioral models used during my PhD.
 
 
 ## Create a model
