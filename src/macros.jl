@@ -10,9 +10,9 @@ end
 
 macro evolution(mdl, expr)
     body = QuoteNode(expr)
-    return quote 
+    return esc(quote 
         eval(AnimalBehavior._evolution($mdl, $body))
-    end
+    end)
 end
 
 function _observation(mdl, body)
@@ -27,7 +27,7 @@ end
 
 macro observation(mdl, expr)
     body = QuoteNode(expr)
-    return quote 
+    return esc(quote 
         eval(AnimalBehavior._observation($mdl, $body))
-    end
+    end)
 end
