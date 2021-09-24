@@ -2,7 +2,7 @@ function _evolution(mdl, body)
     nt = Base.return_types(mdl, ())[1]
     mdl_kwargs = fieldnames(nt)
     mdl_type = typeof(mdl)
-    callex = Expr(:call, :evolution!, Expr(:parameters, mdl_kwargs...), :(M::T), :s)
+    callex = Expr(:call, :evolution!, Expr(:parameters, mdl_kwargs...), :(M::T), :s, :a, :r)
     whereex = Expr(:where, callex, :(T<:$mdl_type))
     ex = Expr(:(=), whereex, body)
     return ex
@@ -19,7 +19,7 @@ function _observation(mdl, body)
     nt = Base.return_types(mdl, ())[1]
     mdl_kwargs = fieldnames(nt)
     mdl_type = typeof(mdl)
-    callex = Expr(:call, :observation, Expr(:parameters, mdl_kwargs...), :(M::T), :s, :a, :r)
+    callex = Expr(:call, :observation, Expr(:parameters, mdl_kwargs...), :(M::T), :s)
     whereex = Expr(:where, callex, :(T<:$mdl_type))
     ex = Expr(:(=), whereex, body)
     return ex
