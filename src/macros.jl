@@ -1,31 +1,33 @@
-""" Evolution macro creates a function _modelname_evolution(s, a, r; θ...)"""
-
-function get_mdl_kwargs(mdl)
+function _evolution(mdl, body)
     nt = Base.return_types(mdl, ())[1]
-    return fieldnames(nt), typeof(mdl)
+    mdl_kwargs = fieldnames(nt)
+    mdl_type = typeof(mdl)
+    callex = Expr(:call, :evolution!, Expr(:parameters, mdl_kwargs...), :(M::T), :s)
+    whereex = Expr(:where, callex, :(T<:$mdl_type))
+    ex = Expr(:(=), whereex, body)
+    return ex
 end
 
 macro evolution(mdl, expr)
-    mdl_kwargs, mdl_type = get_mdl_kwargs(eval(:(mdl))) 
-    
-    fun_def = Dict(
-        :name => :evolution!,
-        :body => expr,
-        :args => [:(M::T), :s, :a, :r],
-        :kwargs => mdl_kwargs,
-        :whereparams => [:(T<:$mdl_type)]
-    )
-    return MacroTools.combinedef(fun_def)
+    body = QuoteNode(expr)
+    return quote 
+        eval(AnimalBehavior._evolution($mdl, $body))
+    end
+end
+
+function _observation(mdl, body)
+    nt = Base.return_types(mdl, ())[1]
+    mdl_kwargs = fieldnames(nt)
+    mdl_type = typeof(mdl)
+    callex = Expr(:call, :observation, Expr(:parameters, mdl_kwargs...), :(M::T), :s, :a, :r)
+    whereex = Expr(:where, callex, :(T<:$mdl_type))
+    ex = Expr(:(=), whereex, body)
+    return ex
 end
 
 macro observation(mdl, expr)
-    mdl_kwargs, mdl_type = get_mdl_kwargs(eval(:($mdl)))
-    fun_def = Dict(
-        :name => :observation,
-        :body => expr,
-        :args => [:(M::T), :s],
-        :kwargs => mdl_kwargs,
-        :whereparams => [:(T<:$mdl_type)]
-    )
-    return MacroTools.combinedef(fun_def)
+    body = QuoteNode(expr)
+    return quote 
+        eval(AnimalBehavior._observation($mdl, $body))
+    end
 end
