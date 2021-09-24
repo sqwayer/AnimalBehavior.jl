@@ -21,7 +21,7 @@ MyModel = Qlearning(2,1)
 
 ```
 
-Note that variables can be sampled from a prior distribution, and/or transorfmed by any arbitrary function 
+Latent variables can be sampled from a prior distribution, and/or transformed by any arbitrary function 
 
 Then you have to define an evolution and an observation functions with the macros ```@evolution```and ```@observation```respectively with the following syntax : 
 ```julia
@@ -34,12 +34,12 @@ Then you have to define an evolution and an observation functions with the macro
     end
 ```
 
-The expression in the ```begin``` ```end``` statement can use the reserved variables names ```s```, ```a``` and ```r``` for the current state, action and feedback respectively, and/or any latent variable defined earlier.
+The expression in the ```begin``` ```end``` statement can use the **reserved variables names** ```s```, ```a``` and ```r``` for the current state, action and feedback respectively, and/or any latent variable defined earlier.
 Moreover, the observation function must return a ```Distribution``` from the [Distributions.jl package](https://github.com/JuliaStats/Distributions.jl).
 
 ## Simulate behavior
 ```julia
-# Simulation in a probabilistic reversal task
+# Simulation of a probabilistic reversal task
 function pr_feedback(history) # Reverse the correct response every 20 trials
     correct = mod(length(history)/20, 2) < 1 ? 1 : 2
     return rand() < 0.9 ? history[end].a == correct : history[end].a ≠ correct 
