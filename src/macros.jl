@@ -2,7 +2,7 @@ function _evolution(mdl, body)
     nt = Base.return_types(mdl, ())[1]
     mdl_kwargs = fieldnames(nt)
     mdl_type = typeof(mdl)
-    callex = Expr(:call, :evolution!, Expr(:parameters, mdl_kwargs...), :(M::T), :s, :a, :r)
+    callex = Expr(:call, :(AnimalBehavior.evol!), Expr(:parameters, mdl_kwargs...), :(M::T), :s, :a, :r)
     whereex = Expr(:where, callex, :(T<:$mdl_type))
     ex = Expr(:(=), whereex, body)
     return ex
@@ -15,11 +15,13 @@ macro evolution(mdl, expr)
     end)
 end
 
+function evol! end
+
 function _observation(mdl, body)
     nt = Base.return_types(mdl, ())[1]
     mdl_kwargs = fieldnames(nt)
     mdl_type = typeof(mdl)
-    callex = Expr(:call, :observation, Expr(:parameters, mdl_kwargs...), :(M::T), :s)
+    callex = Expr(:call, :(AnimalBehavior.observ), Expr(:parameters, mdl_kwargs...), :(M::T), :s)
     whereex = Expr(:where, callex, :(T<:$mdl_type))
     ex = Expr(:(=), whereex, body)
     return ex
@@ -31,3 +33,5 @@ macro observation(mdl, expr)
         eval(AnimalBehavior._observation($mdl, $body))
     end)
 end
+
+function observ end

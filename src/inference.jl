@@ -1,25 +1,30 @@
-# struct Posterior{Tc, Tp}
+# struct Posterior{Tp, Tl, Tc}
+#     parameters::Tp
+#     latent::Tl
 #     chain::Tc
-#     avgParams::
 # end
 
 function cycle!(mdl, θ, obs)
     # action
-    P = observation(mdl, obs.s; θ...)
+    P = AnimalBehavior.observ(mdl, obs.s; θ...)
     # update
-    evolution!(mdl, obs...; θ...)
+    AnimalBehavior.evol!(mdl, obs...; θ...)
     return P
 end
 
-function infer(mdl, data; sampler, niter)
+function sample(mdl::Tm, data::StructVector, args...; kwargs...) where Tm <: AbstractMCMC.AbstractModel
+    sample(Random.default_rng(), mdl, data, args...; kwargs...)
+end
 
+function sample(rng::AbstractRNG, mdl::Tm, data::StructVector, args...; kwargs...) where Tm <: AbstractMCMC.AbstractModel
     @model model(A) = begin
         θ = @submodel mdl
         θ = check_tuple_types(θ)
-        
+
         P = [cycle!(mdl, θ, obs) for obs in data]
         A ~ arraydist(P)
+        return
     end
-    chn = sample(model(data.a), sampler, niter)
-    return chn
+
+    return sample(rng, model(data.a), args...; kwargs...)
 end
