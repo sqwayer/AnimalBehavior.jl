@@ -65,3 +65,5 @@ e.g. :
 chn = sample(MyModel, sim.data, NUTS(), 1000)
 ```
 
+## Model comparison
+WIP
