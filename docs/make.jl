@@ -1,10 +1,12 @@
 using Documenter
 using AnimalBehavior
 
-makedocs(
-    sitename = "AnimalBehavior",
-    format = Documenter.HTML(),
-    modules = [AnimalBehavior]
+push!(LOAD_PATH,"../src/")
+makedocs(sitename="AnimalBehavior.jl Documentation",
+         pages = [
+            "Index" => "index.md"
+         ],
+         format = Documenter.HTML(prettyurls = false)
 )
 
 # Documenter can also automatically deploy documentation to gh-pages.
