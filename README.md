@@ -1,4 +1,8 @@
 # AnimalBehavior.jl
+
+[![Build status (Github Actions)](https://github.com/sqwayer/AnimalBehavior.jl/workflows/CI/badge.svg)](https://github.com/sqwayer/AnimalBehavior.jl/actions)
+[![codecov.io](http://codecov.io/github/sqwayer/AnimalBehavior.jl/coverage.svg?branch=main)](http://codecov.io/github/sqwayer/AnimalBehavior.jl?branch=main)
+
 Generative models of animal behavior rely on the same global structure : 
 - They are defined by a set of ***latent variables*** (either fixed parameters or evolving variables)
 - Those latent variables evolve as a function of external observations by an ***evolution function***
