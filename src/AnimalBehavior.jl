@@ -1,8 +1,9 @@
 module AnimalBehavior
 
-using Turing, StructArrays, Distributions, Random, DataFrames
+using Turing, StructArrays, Distributions, Random, PrettyTables
 using StatsFuns: softmax
 using ForwardDiff: ForwardDiff
+using DataFrames: DataFrames
 
 import Base: rand, convert, show
 import Turing: sample

@@ -11,7 +11,7 @@ end
 function epsilon_greedy(P, ϵ)
     N = length(P)
     P .*= 1 - ϵ 
-    P .+= ϵ/(N-1)
+    P .+= ϵ/(N)
     return P
 end
 

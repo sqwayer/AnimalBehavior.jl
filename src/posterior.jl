@@ -4,8 +4,10 @@ struct Posterior{Tp, Tl, Tap, Tal}
     latent_distribution::Tl
     parameters_avg::Tap
     latent_avg::Tal
-    data_length::Int
+    nparams::Int
+    ndata::Int
     loglikelihood::Float64
+    pD::Float64
     dic::Float64
     bic::Float64
     aic::Float64
@@ -18,8 +20,16 @@ function log_model_evidence(mdl, latent::NT, data) where NT <: NamedTuple
     return logpdf(arraydist(P), data.a)
 end
 
+function pD(D_samples, D_avg)
+    return D_samples - D_avg
+end
+
+function pV(D_samples, _)
+    return 0.5*var(D_samples)
+end
+
 # Model comparison
-function posterior(mdl, chn::Chains, data)
+function posterior(mdl, chn::Chains, data; dic_params = pD )
     n = length(chn)
 
     # Extract parameters
@@ -46,22 +56,24 @@ function posterior(mdl, chn::Chains, data)
     end
     D_samples = -2 * mean(lp_samples)
     D_avg = -2 * lp_avg
-    pD = D_samples - D_avg
+    pD = dic_params(D_samples, D_avg)
     dic = pD + D_samples
 
-    # Compute BIC and AIC
+    # Compute AIC and BIC
     k = length(avg_param)
     N = length(data)
-    bic = k * log(N) - 2 * lp_avg
     aic = 2 * k - 2 * lp_avg
+    bic = k * log(N) - 2 * lp_avg
     
     return Posterior(mdl.name, 
                      parameters, 
                      latent,
                      avg_param,
                      avg_latent,
+                     k,
                      N,
                      lp_avg,
+                     pD,
                      dic,
                      bic,
                      aic
@@ -70,15 +82,27 @@ end
 
 # Show
 function Base.show(io::IO, ::MIME"text/plain", P::AnimalBehavior.Posterior)
-    println(io, "Posterior probability for model ", P.name, " on $(P.data_length) data points :")
-    println(io, "Average hyperparameters : ", P.parameters_avg)
-    println(io, "Average initial latent variables : ", P.latent_avg)
-    println(io, "Goodness of fit : ")
-    println(io, "       Negative log-likelihood : ", -P.loglikelihood)
-    println(io, "       Akaike Information Criterion : ", P.aic)
-    println(io, "       Bayesian Information Criterion : ", P.bic)
-    println(io, "       Deviance Information Criterion : ", P.dic)
-    println(io, "Model complexity : ")
-    println(io, "       Number of hyperparameters : ", length(P.parameters_avg))
-    println(io, "       Effective number of parameters : ", (P.dic + 2 * P.loglikelihood)/2)
+    table_conf = set_pt_conf(tf = tf_markdown, alignment = :c)
+    println(io, "Posterior probability for ", P.name, " with $(P.ndata) data points")
+    
+    println(io)
+    param_header = collect(keys(P.parameters_avg))
+    pretty_table_with_conf(table_conf, 
+        collect(values(P.parameters_avg))'; 
+        header = param_header,
+        title = "Average hyperparameters")
+    
+    println(io)
+    latent_header = collect(keys(P.latent_avg))
+    pretty_table_with_conf(table_conf, 
+        collect(values(P.latent_avg))'; 
+        header = latent_header,
+        title = "Average initial latent variables")
+    
+    println(io)
+    fit_header = ["", "Goodness of fit", "Complexity"]
+    fit_vals = ["AIC" P.aic 2*P.nparams;
+                "DIC" P.dic 2*P.pD;
+                "BIC" P.bic P.nparams * log(P.ndata)]
+    pretty_table_with_conf(table_conf, fit_vals; header=fit_header)
 end
