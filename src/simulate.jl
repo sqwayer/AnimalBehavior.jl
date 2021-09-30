@@ -1,4 +1,17 @@
-""" Simulation """
+""" simulate(mdl; 
+        state_transition = x -> 1, 
+        feedback = x -> missing, 
+        initial_state = 1, 
+        ending_condition = x -> length(x) > 100,
+        init_θ = mdl())
+    
+    Simulation function
+    
+    # Arguments
+
+    # Examples
+"""
+
 struct Simulation{Td, Tl}
     name::Symbol
     data::Td
@@ -6,6 +19,7 @@ struct Simulation{Td, Tl}
 end
 
 # Simulate
+
 function simulate(mdl; 
     state_transition = x -> 1, 
     feedback = x -> missing, 
