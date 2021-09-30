@@ -50,7 +50,12 @@ sim = simulate(MyModel; feedback=pr_feedback);
 ```simulate``` returns a ```Simulation``` structure with fields ```data``` and ```latent```.
 
 ## Inference
+The package re-export the ```sample``` function to return a [Chains](https://github.com/TuringLang/MCMCChains.jl) object, with the following syntax : 
 ```julia
-post = infer(MyModel, sim.data; sampler=NUTS(), niter=1000)
+sample(model, data, args...; kwargs...)
 ```
-```infer``` retruns a ```MCMCChain```.
+e.g. : 
+```julia
+chn = sample(MyModel, sim.data, NUTS(), 1000)
+```
+
