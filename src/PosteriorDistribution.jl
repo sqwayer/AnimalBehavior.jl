@@ -39,7 +39,7 @@ rand(PD::PosteriorDistribution{TV}, n::Int) where TV = rand(Random.default_rng()
 
 # Summary stats
 average(V::Vector{T}) where T <: AbstractFloat = mean(V)
-average(V::Vector{T}) where T <: Integer = Int(median(V))
+average(V::Vector{T}) where T <: Integer = Int(mode(V))
 function average(V::Vector{M}) where M <: AbstractMatrix
     sz = unique(size.(V))
     length(sz) == 1 || throw(DimensionMismatch("Inequal matrices sizes"))
