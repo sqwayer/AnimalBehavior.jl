@@ -13,6 +13,6 @@ makedocs(sitename="AnimalBehavior.jl Documentation",
 # See "Hosting Documentation" and deploydocs() in the Documenter manual
 # for more information.
 deploydocs(
-    repo = "github.com/sylvaticus/AnimalBehavior.jl.git",
+    repo = "github.com/sqwayer/AnimalBehavior.jl.git",
     devbranch = "main"
 )
