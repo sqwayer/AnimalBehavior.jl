@@ -8,7 +8,7 @@ or
 end
 """
 
-function epsilon_greedy(P, ϵ)
+function epsilon_greedy!(P, ϵ)
     N = length(P)
     P .*= 1 - ϵ 
     P .+= ϵ/(N)
@@ -21,9 +21,6 @@ function epsilon_argmax(Q::Vector{T}, ϵ) where T
     return epsilon_greedy(P, ϵ)
 end
 
-function ucb(Q, U, c)
-    S = sqrt.(U)
-    S .*= c
-    S .+= Q
-    return S
+function ucb!(Q, U, c)
+    Q .+= c * sqrt.(U)
 end
