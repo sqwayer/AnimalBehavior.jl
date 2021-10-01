@@ -4,7 +4,8 @@ using AnimalBehavior
 push!(LOAD_PATH,"../src/")
 makedocs(sitename="AnimalBehavior.jl Documentation",
          pages = [
-            "Index" => "index.md"
+            "Index" => "index.md",
+            "An other page" => "anotherPage.md",
          ],
          format = Documenter.HTML(prettyurls = false)
 )
