@@ -1,3 +1,5 @@
-# AnimalBehavior.jl
+# AnimalBehavior.jl documentation
 
-Documentation for AnimalBehavior.jl
+ ```@docs
+ simulate(mdl)
+ ```

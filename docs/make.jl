@@ -5,7 +5,6 @@ push!(LOAD_PATH,"../src/")
 makedocs(sitename="AnimalBehavior.jl Documentation",
          pages = [
             "Index" => "index.md",
-            "An other page" => "anotherPage.md",
          ],
          format = Documenter.HTML(prettyurls = false)
 )
@@ -14,6 +13,7 @@ makedocs(sitename="AnimalBehavior.jl Documentation",
 # See "Hosting Documentation" and deploydocs() in the Documenter manual
 # for more information.
 deploydocs(
-    repo = "github.com/sqwayer/AnimalBehavior.jl.git",
-    devbranch = "main"
+    repo = "github.com/sqwayer/AnimalBehavior.jl",
+    devbranch = "main",
+    branch = "gh-pages"
 )

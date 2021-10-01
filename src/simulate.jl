@@ -1,10 +1,6 @@
-""" simulate(mdl; 
-        state_transition = x -> 1, 
-        feedback = x -> missing, 
-        initial_state = 1, 
-        ending_condition = x -> length(x) > 100,
-        init_θ = mdl())
-    
+""" 
+    simulate(mdl)
+
     Simulation function
     
     # Arguments
