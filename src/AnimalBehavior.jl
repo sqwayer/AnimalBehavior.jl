@@ -1,3 +1,6 @@
+"""
+        AnimalBehavior 
+"""
 module AnimalBehavior
 
 using Turing, StructArrays, Distributions, Random, PrettyTables
