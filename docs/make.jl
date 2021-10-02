@@ -13,7 +13,7 @@ makedocs(sitename="AnimalBehavior.jl Documentation",
 # See "Hosting Documentation" and deploydocs() in the Documenter manual
 # for more information.
 deploydocs(
-    repo = "github.com/sqwayer/AnimalBehavior.jl",
-    devbranch = "main",
+    repo = "github.com/sqwayer/AnimalBehavior.jl.git",
+    devbranch = "master",
     branch = "gh-pages"
 )
