@@ -2,7 +2,7 @@ function cycle!(θ, mdl, obs)
     # action
     P = AnimalBehavior.observ(mdl, obs.s; θ...)
     # update
-    AnimalBehavior.evol!(mdl, obs...; θ...)
+    AnimalBehavior.evol!(mdl, obs.s, obs.a, obs.r; θ...)
     return P
 end
 
