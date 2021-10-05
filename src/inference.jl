@@ -1,4 +1,4 @@
-function cycle!(mdl, θ, obs)
+function cycle!(θ, mdl, obs)
     # action
     P = AnimalBehavior.observ(mdl, obs.s; θ...)
     # update
@@ -16,7 +16,7 @@ function sample(rng::AbstractRNG, mdl::Tm, data::StructVector, args...; kwargs..
         θ = @submodel mdl
         θ = check_tuple_types(θ)
 
-        P = [cycle!(mdl, θ, obs) for obs in data]
+        P = [cycle!(θ, mdl, obs) for obs in data]
         A ~ arraydist(P)
         return
     end
@@ -38,7 +38,7 @@ function sample(rng::AbstractRNG, mdl::Tm, data::Vector{StructVector}, args...; 
         for sess in 1:nsess
             sessdat = data[sess]
             θ_init = deepcopy(θ)
-            P = [cycle!(mdl, θ_init, obs) for obs in sessdat]
+            P = [cycle!(θ_init, mdl, obs) for obs in sessdat]
             A[sess] ~ arraydist(P)
         end
         return

@@ -7,7 +7,7 @@ end
 mdl1 = Qlearning(2,1)
 
 @evolution mdl1 begin 
-    delta_rule!(s, a, r, Values, α)
+    delta_rule!(Values, s, a, r, α)
 end
 
 @observation mdl1 begin

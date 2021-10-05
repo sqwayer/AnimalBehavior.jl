@@ -14,9 +14,9 @@ struct Posterior{Tp, Tl, Tap, Tal}
 end
 
 # Model log-likelihood
-function log_model_evidence(mdl, latent::NT, data) where NT <: NamedTuple
+function loglikelihood(mdl, latent::NT, data) where NT <: NamedTuple
     θ = deepcopy(latent)
-    P = [cycle!(mdl, θ, obs) for obs in data]
+    P = [cycle!(θ, mdl, obs) for obs in data]
     return logpdf(arraydist(P), data.a)
 end
 
@@ -49,10 +49,10 @@ function posterior(mdl, chn::Chains, data; dic_params = pD )
     avg_latent = generated_quantities(mdl, avg_param)
     
     # Compute DIC 
-    lp_avg = log_model_evidence(mdl, avg_latent, data)
+    lp_avg = loglikelihood(mdl, avg_latent, data)
     lp_samples = zeros(n)
     for i = 1:n
-        lp_samples[i] = log_model_evidence(mdl, get_sample(latent, i), data)
+        lp_samples[i] = loglikelihood(mdl, get_sample(latent, i), data)
     end
     D_samples = -2 * mean(lp_samples)
     D_avg = -2 * lp_avg
