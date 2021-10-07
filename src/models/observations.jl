@@ -18,7 +18,7 @@ end
 function epsilon_argmax(Q::Vector{T}, ϵ) where T
     P = zero(Q)
     P[argmax(Q)] = one(T)   
-    return epsilon_greedy(P, ϵ)
+    return epsilon_greedy!(P, ϵ)
 end
 
 function ucb!(Q, U, c)

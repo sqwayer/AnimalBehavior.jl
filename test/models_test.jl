@@ -11,7 +11,8 @@ mdl1 = Qlearning(2,1)
 end
 
 @observation mdl1 begin
-    Categorical(softmax(β * @views(Values[:,s])))
+    V = β .* @views(Values[:,s])
+    Categorical(softmax!(V))
 end
 
 θ = generated_quantities(mdl1, (α=0.2, β = 2.0))
@@ -20,6 +21,6 @@ end
 AnimalBehavior.evol!(mdl1, 1, 1, 1.0; θ... )
 @test θ.Values[1] == 0.6
 
-@test AnimalBehavior.observ(mdl1, 1; θ... ) == Categorical(softmax([1.2, 1.0]))
+@test AnimalBehavior.observ(mdl1, 1; θ... ) == Categorical(softmax!([1.2, 1.0]))
 
 

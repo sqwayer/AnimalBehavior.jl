@@ -25,11 +25,11 @@ function sample(rng::AbstractRNG, mdl::Tm, data::StructVector, args...; kwargs..
 end
 
 # Sample for multiple sessions
-function sample(mdl::Tm, data::Vector{StructVector}, args...; kwargs...) where Tm <: AbstractMCMC.AbstractModel
+function sample(mdl::Tm, data::Array{Ts}, args...; kwargs...) where {Tm <: AbstractMCMC.AbstractModel, Ts <: StructVector}
     sample(Random.default_rng(), mdl, data, args...; kwargs...)
 end
 
-function sample(rng::AbstractRNG, mdl::Tm, data::Vector{StructVector}, args...; kwargs...) where Tm <: AbstractMCMC.AbstractModel
+function sample(rng::AbstractRNG, mdl::Tm, data::Array{Ts}, args...; kwargs...) where {Tm <: AbstractMCMC.AbstractModel, Ts <: StructVector}
     nsess = length(data)
     @model model(A) = begin
         θ = @submodel mdl

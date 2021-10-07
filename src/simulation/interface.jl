@@ -1,5 +1,8 @@
-# Unpacking vectors of arrays into dataframes
 
+data_size(data::Array{Ts}) where Ts <: StructVector = sum(length.(data))
+data_size(data::Ts) where Ts <: StructVector = length(data)
+
+# Unpacking vectors of arrays into dataframes
 function all_indices_comb(A::AbstractMatrix)
     m, n = size(A)
     M = repeat(1:m, inner=n)
@@ -33,10 +36,10 @@ function unpack(S::StructVector{T}) where T <: NamedTuple
 end
 
 # Convert Dataframes into a StructVector with named fields s, a, and r
-repack(df::DataFrame, val) = fill(val, nrow(df))
-repack(df::DataFrame, name::Symbol) = Vector(df[!,name])
-repack(df::DataFrame, names::Vector{Symbol}) = [(;df[!,names][i,:]...) for i in 1:nrow(df)]
-function build_history(df::DataFrame; states=missing, actions, feedbacks=missing, hidden=missing)
+repack(df::DataFrames.DataFrame, val) = fill(val, nrow(df))
+repack(df::DataFrames.DataFrame, name::Symbol) = Vector(df[!,name])
+repack(df::DataFrames.DataFrame, names::Vector{Symbol}) = [(;df[!,names][i,:]...) for i in 1:nrow(df)]
+function build_history(df::DataFrames.DataFrame; states=missing, actions, feedbacks=missing, hidden=missing)
     return StructVector(s = repack(df, states), 
                         a = repack(df, actions), 
                         r = repack(df, feedbacks), 
