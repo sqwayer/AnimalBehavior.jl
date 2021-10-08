@@ -1,7 +1,7 @@
 name = "AnimalBehavior"
 uuid = "6e209a40-7ba7-48e5-b07c-698d71ff5940"
 authors = ["Sami Beaumont"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
